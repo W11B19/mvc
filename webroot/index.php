@@ -1,5 +1,13 @@
 <?php   
 
-    require_once "../config/config.php";
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', dirname(dirname(__FILE__)));
+define('VIEWS_PATH', ROOT.DS.'views');
 
-    echo SITE_NAME;
+require_once(ROOT.DS.'lib'.DS.'init.php');
+
+session_start();
+
+echo Config::get('site_name');
+
+//App::run($_SERVER['REQUEST_URI']);
