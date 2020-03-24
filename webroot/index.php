@@ -8,6 +8,5 @@ require_once(ROOT.DS.'lib'.DS.'init.php');
 
 session_start();
 
-echo Config::get('site_name');
 
-//App::run($_SERVER['REQUEST_URI']);
+App::run($_SERVER['REQUEST_URI']);
