@@ -8,10 +8,10 @@ function devionityAutoload($class_name)
 
     if (file_exists($lib_path)) {
         require_once($lib_path);
-    } elseif ( file_exists($controllers_path) && !class_exists($class_name)) {
-        require_once($controllers_path);
     } elseif ( file_exists($model_path) && !class_exists($class_name)) {
         require_once($model_path);
+    } elseif ( file_exists($controllers_path) && !class_exists($class_name)) {
+        require_once($controllers_path);
     } else {
         throw new Exception('Failed to include class: '.$class_name);
     }

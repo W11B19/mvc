@@ -3,11 +3,25 @@
 class Blog extends Model{
 
     public function getList($only_published = false){
-        $sql = "select * from pages where 1";
+        $page = $_GET['p'] ?? 1;
+        $sql = "SELECT p.*, u.name FROM ".Config::get('db.db_prefix')."posts p, ".Config::get('db.db_prefix')."users u WHERE p.publishedby=u.id";
         if ( $only_published ){
-            $sql .= " and is_published = 1";
+            $sql .= " and published = 1";
         }
+        if ( $page ){
+            $sql .= " limit ".strval(($page - 1)*6).",6";
+        }
+
         return $this->db->query($sql);
+    }
+
+    public function getPages($only_published = false){
+        $sql = "SELECT count(id) cnt FROM ".Config::get('db.db_prefix')."posts WHERE 1";
+        if ( $only_published ){
+            $sql .= " and published = 1";
+        }
+        $r =  $this->db->query($sql);
+        return (integer)($r[0]['cnt'] / 6);
     }
 
     public function getByAlias($alias){

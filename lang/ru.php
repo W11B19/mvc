@@ -2,5 +2,6 @@
 
 return array(
     'lng.header_home' => 'Главная',
-    'lng.test2' => 'Exemple de texte2',
+    'lng.about' => 'О нас',
+    'lng.test2' => 'Тест 2',
 );

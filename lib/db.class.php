@@ -7,7 +7,7 @@ class DB{
     public function __construct($host, $user, $password, $db_name){
         $this->connection = new mysqli($host, $user, $password, $db_name);
 
-        if( mysqli_connect_error() ){
+        if( $this->connection->connect_error ){
             throw new Exception('Could not connect to DB');
         }
     }

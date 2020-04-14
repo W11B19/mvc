@@ -8,7 +8,8 @@ class BlogController extends Controller{
     }
 
     public function index(){
-        $this->data['pages'] = $this->model->getList();
+        $this->data['posts'] = $this->model->getList(true);
+        $this->data['pages'] = $this->model->getPages(true);
     }
 
     public function view(){

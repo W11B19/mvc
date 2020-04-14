@@ -18,6 +18,7 @@ Config::set('default_action', 'index');
 Config::set('db.host', 'localhost');
 Config::set('db.user', 'root');
 Config::set('db.password', '');
-Config::set('db.db_name', 'mvc1db');
+Config::set('db.db_name', 'mydata');
+Config::set('db.db_prefix', 'h4t98hf47r_');
 
 Config::set('salt', 'jd7sj3sdkd964he7e');
