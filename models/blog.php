@@ -4,9 +4,24 @@ class Blog extends Model{
 
     public function getList($only_published = false){
         $page = $_GET['p'] ?? 1;
+        $tag = $_GET['tag'] ?? '';
+
         $sql = "SELECT p.*, u.name FROM ".Config::get('db.db_prefix')."posts p, ".Config::get('db.db_prefix')."users u WHERE p.publishedby=u.id";
         if ( $only_published ){
             $sql .= " and published = 1";
+        }
+        if ( $tag ){
+            $sqlTag = "SELECT distinct postid from ".Config::get('db.db_prefix')."tag_post WHERE tagid={$tag}";
+            $tagPostList = $this->db->query($sqlTag);
+            $tagPostStr = '';
+            foreach($tagPostList as $tagPost){
+
+                $tagPostStr .= $tagPost['postid'].",";
+            }
+            if ($tagPostStr){
+                $tagPostStr = trim($tagPostStr, ",");
+                $sql .= " and p.id IN ({$tagPostStr})";
+            }
         }
         if ( $page ){
             $sql .= " limit ".strval(($page - 1)*6).",6";
@@ -24,11 +39,30 @@ class Blog extends Model{
         return (integer)($r[0]['cnt'] / 6);
     }
 
+    public function getTags($only_published = false){
+        $sql = "SELECT DISTINCT t.id,t.title FROM ".Config::get('db.db_prefix')."tag_post tp, ".Config::get('db.db_prefix')."posts p, ".Config::get('db.db_prefix')."tags t WHERE tp.postid=p.id AND tp.tagid=t.id";
+        if ( $only_published ){
+            $sql .= " and published = 1";
+        }
+        return $this->db->query($sql);
+    }    
+
     public function getByAlias($alias){
         $alias = $this->db->escape($alias);
-        $sql = "select * from pages where alias = '{$alias}' limit 1";
+        $sql = "select * from ".Config::get('db.db_prefix')."posts where alias = '{$alias}' limit 1";
         $result = $this->db->query($sql);
-        return isset($result[0]) ? $result[0] : null;
+        $publishedby = $result[0]['publishedby'];
+        $categoryid = $result[0]['categoryid'];
+        
+        $sql = "select * from ".Config::get('db.db_prefix')."users where id = {$publishedby} limit 1";
+        $user = $this->db->query($sql);
+        $result[0]['username'] = $user[0]['name'];
+
+        $sql = "select * from ".Config::get('db.db_prefix')."category where id = {$categoryid} limit 1";
+        $category = $this->db->query($sql);
+        $result[0]['category'] = $category[0]['title'];
+
+        return $result[0] ?? null;
     }
 
     public function getById($id){

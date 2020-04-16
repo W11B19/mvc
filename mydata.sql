@@ -57,7 +57,7 @@ CREATE TABLE `h4t98hf47r_posts` (
   `longtitle` varchar(120) DEFAULT NULL,
   `description` varchar(250) DEFAULT NULL,
   `introtext` varchar(250) DEFAULT NULL,
-  `content` text DEFAULT 'NULL',
+  `content` text,
   `thumbnail` varchar(100) DEFAULT 'NULL',
   `alias` varchar(100) NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,

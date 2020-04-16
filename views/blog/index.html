@@ -47,13 +47,24 @@
     <div class="blog-pagination margin-top-10"><!-- blog pagination -->
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                        <i class="fas fa-chevron-right"></i>
-                </a>
-                </li>
+                <?php 
+                    $current = $_GET['p'] ?? 1;
+                    $output = '';
+                    for($i=0; $i <= $data['pages']; $i++){
+                        $currPage = $i + 1;
+                        $output .= "<li class='page-item";
+                        if ($current == $i+1)
+                            $output .= " active";
+                        $output .= "'><a class='page-link' href='blog?p={$currPage}'>{$currPage}</a></li>";
+                    }
+                    
+                    if ($current < $data['pages']+1){
+                        $currentPage = $current + 1;
+                        $output .= "<li class='page-item'><a class='page-link' href='blog?p={$currentPage}' aria-label='Next'><i class='fas fa-chevron-right'></i></a></li>";
+                    }else    
+                        $output .= "<li class='page-item'><i class='fas fa-chevron-right'></i></li>";
+                    echo $output;
+                ?>
             </ul>
         </nav>
     </div><!-- //. blog pagination -->
@@ -122,13 +133,16 @@
 <div class="widget widget_tag_cloud"><!-- widget -->
     <h4 class="widget-title">Tags</h4>
     <div class="tagcloud">
-        <a href="#">Events</a>
-        <a href="#">Love</a>
-        <a href="#">Story</a>
-        <a href="#">Gift</a>
-        <a href="#">Events</a>
-        <a href="#">First Metting</a>
-        <a href="#">Couple</a>
+        <?php
+            $page = $_GET['p'] ?? '';
+
+            foreach($data['tags'] as $tag){
+                if ($page)
+                    echo "<a href='blog?p={$page}&tag={$tag['id']}'>{$tag['title']}</a>";
+                else
+                    echo "<a href='blog?tag={$tag['id']}'>{$tag['title']}</a>";
+            }
+        ?>
     </div>
 </div>
 

@@ -10,6 +10,7 @@ class BlogController extends Controller{
     public function index(){
         $this->data['posts'] = $this->model->getList(true);
         $this->data['pages'] = $this->model->getPages(true);
+        $this->data['tags'] = $this->model->getTags(true);
     }
 
     public function view(){
