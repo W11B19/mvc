@@ -10,18 +10,22 @@ class UsersController extends Controller{
     public function admin_login(){
         if ( $_POST && isset($_POST['login']) && isset($_POST['password']) ){
             $user = $this->model->getByLogin($_POST['login']);
-            $hash = md5(Config::get('salt').$_POST['password']);
-            if ( $user && $user['is_active'] && $hash == $user['password'] ){
-                Session::set('login', $user['login']);
-                Session::set('role', $user['role']);
+            $hash = password_verify($_POST['password'], $user['password']);
+            
+            if ( $user && $user['isActive'] && $hash){
+                Session::set('login', $user['name']);
+                Session::set('admin', $user['isAdmin']);
             }
-            Router::redirect('/admin/');
+            $redirect = Session::get('redirect');
+            if ($redirect){
+                Router::redirect('/'.$redirect);
+            }
         }
     }
 
     public function admin_logout(){
         Session::destroy();
-        Router::redirect('/admin/');
+        Router::redirect('/blog');
     }
 
     public function admin_add()

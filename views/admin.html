@@ -19,8 +19,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <?php if ( Session::get('login') ) { ?>
             <ul class="nav navbar-nav">
-                <li <?php if( App::getRouter()->getController() == 'pages' ) {?>class="active"<?php } ?>><a href="/admin/pages/">Pages</a></li>
-                <li <?php if( App::getRouter()->getController() == 'contacts' ) {?>class="active"<?php } ?>><a href="/admin/contacts/">Contact Us</a></li>
+                <li <?php if( App::getRouter()->getController() == 'blog' ) {?>class="active"<?php } ?>><a href="/admin/blog/">Blog</a></li>
                 <li><a href="/admin/users/logout">Logout</a></li>
             </ul>
             <?php } ?>

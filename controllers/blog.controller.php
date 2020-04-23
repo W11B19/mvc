@@ -8,7 +8,7 @@ class BlogController extends Controller{
     }
 
     public function index(){
-        $this->data['posts'] = $this->model->getList(true);
+        $this->data['posts'] = $this->model->getList(true, true);
         $this->data['pages'] = $this->model->getPages(true);
         $this->data['tags'] = $this->model->getTags(true);
     }
@@ -23,7 +23,8 @@ class BlogController extends Controller{
     }
 
     public function admin_index(){
-        $this->data['pages'] = $this->model->getList();
+
+        $this->data['posts'] = $this->model->getList();
     }
 
     public function admin_add(){
@@ -48,7 +49,7 @@ class BlogController extends Controller{
             } else {
                 Session::setFlash('Error.');
             }
-            Router::redirect('/admin/pages/');
+            Router::redirect('/admin/blog/');
         }
 
         if ( isset($this->params[0]) ){

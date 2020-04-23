@@ -6,16 +6,24 @@
         <input type="text" id="alias" name="alias" value="<?=$data['page']['alias']?>" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="title">Alias</label>
+        <label for="title">Title</label>
         <input type="text" id="title" name="title" value="<?=$data['page']['title']?>" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="longtitle">Long title</label>
+        <input type="text" id="longtitle" name="longtitle" value="<?=$data['page']['longtitle']?>" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="introtext">Introtext</label>
+        <input type="text" id="introtext" name="introtext" value="<?=$data['page']['introtext']?>" class="form-control" />
     </div>
     <div class="form-group">
         <label for="content">Content</label>
         <textarea name="content" id="content" class="form-control"><?=$data['page']['content']?></textarea>
     </div>
     <div class="form-group">
-        <label for="is_published">Publish?</label>
-        <input type="checkbox" name="is_published" id="is_published" <?php if( $data['page']['is_published'] ) { ?>checked="checked" <?php } ?> />
+        <label for="published">Publish?</label>
+        <input type="checkbox" name="published" id="published" <?php if( $data['page']['published'] ) { ?>checked="checked" <?php } ?> />
     </div>
     <input type="submit" class="btn btn-success" />
 </form>

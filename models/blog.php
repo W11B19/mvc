@@ -2,7 +2,7 @@
 
 class Blog extends Model{
 
-    public function getList($only_published = false){
+    public function getList($only_published = false, $pagination = false){
         $page = $_GET['p'] ?? 1;
         $tag = $_GET['tag'] ?? '';
 
@@ -23,7 +23,7 @@ class Blog extends Model{
                 $sql .= " and p.id IN ({$tagPostStr})";
             }
         }
-        if ( $page ){
+        if ( $page && $pagination){
             $sql .= " limit ".strval(($page - 1)*6).",6";
         }
 
@@ -67,7 +67,7 @@ class Blog extends Model{
 
     public function getById($id){
         $id = (int)$id;
-        $sql = "select * from pages where id = '{$id}' limit 1";
+        $sql = "select * from ".Config::get('db.db_prefix')."posts where id = '{$id}' limit 1";
         $result = $this->db->query($sql);
         return isset($result[0]) ? $result[0] : null;
     }
@@ -81,23 +81,23 @@ class Blog extends Model{
         $alias = $this->db->escape($data['alias']);
         $title = $this->db->escape($data['title']);
         $content = $this->db->escape($data['content']);
-        $is_published = isset($data['is_published']) ? 1 : 0;
+        $published = isset($data['published']) ? 1 : 0;
 
         if ( !$id ){ // Add new record
             $sql = "
-                insert into pages
+                insert into ".Config::get('db.db_prefix')."posts
                    set alias = '{$alias}',
                        title = '{$title}',
                        content = '{$content}',
-                       is_published = {$is_published}
+                       published = {$published}
             ";
         } else { // Update existing record
             $sql = "
-                update pages
+                update ".Config::get('db.db_prefix')."posts
                    set alias = '{$alias}',
                        title = '{$title}',
                        content = '{$content}',
-                       is_published = {$is_published}
+                       published = {$published}
                    where id = {$id}
             ";
         }

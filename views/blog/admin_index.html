@@ -1,11 +1,12 @@
-<h3>Pages</h3><br/>
+<h3>Blog</h3><br/>
 <table class="table table-striped" style="width: 400px;">
-<?php foreach($data['pages'] as $page_data) { ?>
-    <tr>
-        <td><b><?=$page_data['title']?></b></td>
+<?php foreach($data['posts'] as $post_data) { ?>
+    <tr <?php if(!$post_data['published']) echo 'style="background-color:gray;"'; ?></tr>
+        <td><b><?=$post_data['id']?></b></td>
+        <td><b><?=$post_data['title']?></b></td>
         <td align="right">
-            <a href="/admin/pages/edit/<?=$page_data['id']?>"><button class="btn btn-sm btn-primary">edit</button></a>
-            <a href="/admin/pages/delete/<?=$page_data['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
+            <a href="/admin/blog/edit/<?=$post_data['id']?>"><button class="btn btn-sm btn-primary">edit</button></a>
+            <a href="/admin/blog/delete/<?=$post_data['id']?>" onclick="return confirmDelete();"><button class="btn btn-sm btn-warning">delete</button></a>
         </td>
     </tr>
 <?php } ?>
@@ -14,5 +15,5 @@
 <br/>
 
 <div>
-    <a href="/admin/pages/add/"><button class="btn btn-sm btn-success">New Page</button></a>
+    <a href="/admin/blog/add/"><button class="btn btn-sm btn-success">New Page</button></a>
 </div>

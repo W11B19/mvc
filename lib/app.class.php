@@ -21,8 +21,9 @@ class App{
         $controller_method = strtolower(self::$router->getMethodPrefix().self::$router->getAction());
 
         $layout = self::$router->getRoute();
-        if ( $layout == 'admin' && Session::get('role') != 'admin' ){
+        if ( $layout == 'admin' && !Session::get('admin')){
             if ( $controller_method != 'admin_login' ){
+                Session::set('redirect', self::$router->getUri());
                 Router::redirect('/admin/users/login');
             }
         }
